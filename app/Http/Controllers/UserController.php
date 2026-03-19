@@ -11,7 +11,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        //
+        $users = User::paginate(10); // Paginate users, 10 per page
+        return view('users.index', compact('users')); // Return the view with users
     }
 
     /**
@@ -19,7 +20,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        return view('users.create'); // Return the view for creating a user
     }
 
     /**
@@ -27,7 +28,19 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:8|confirmed',
+            'role' => 'required|string|in:admin,user', // Validate role
+        ]);
+
+        User::create([
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'password' => Hash::make($validated['password']), // Password will be hashed by the model
+            'role' => $validated['role'], // Set the role
+        ]); // Create the user with validated data
     }
 
     /**
