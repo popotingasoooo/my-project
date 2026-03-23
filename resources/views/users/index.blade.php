@@ -29,6 +29,46 @@
                         <td class="p-4">{{ $user->email }}</td>
                         <td class="p-4 capitalize">{{ $user->role }}</td>
                         <td class="p-4 flex gap-2">
+                            @can('manage-users')
                             <a href="{{ route('users.edit', $user) }}"
                             class="bg-yellow-400 text-white px-3 py-1 rounded">Edit</a>
-        
+                            <form action="{{route('users.destroy', $user)}}"
+                                method="POST"
+                                onsubmit="return confirm('Delete {{ $user->name }}?')">
+                                @csrf
+                                @method('DELETE')
+                            <button class="bg-red-500 text-white px-3 py-1 rounded text-sx">Delete</button>
+                            </form>
+                            @endcan
+                        </td>
+                    </tr>
+                    @endforeach
+                </tbody>
+                <div class="mt-4">
+                    {{ $users->links() }}
+                </div>
+            </div>
+
+        {{-- Soft deleted users --}}
+        @if($trashed->count() > 0)
+        <div class="big-white shadow rounded p-6 mt-6">
+            <h3 class="text-red-600 mb-4">Deleted Users</h3>
+            <table class="w-full text-sm">
+                @foreach ($trashed as $user)
+                <tr class="border-t">
+                    <td class="p-3">{{ $user->name }}</td>
+                    <td class="p-3">{{ $user->email }}</td>
+                    <td clasas="p-3">
+                        <form action="{{ route('users.restore', $user->id) }}" method="POST">
+                            @csrf
+                            @method('PATCH')
+                            <button class="bg-green-500 text-white px-3 py-1 rounded text-sx">Restore</button>
+                        </form>
+                    </td>
+                </tr>
+                @endforeach
+            </table>
+        </div>
+        @endif
+    </div>
+</x-app-layout>

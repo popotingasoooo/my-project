@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -41,6 +43,7 @@ class UserController extends Controller
             'password' => Hash::make($validated['password']), // Password will be hashed by the model
             'role' => $validated['role'], // Set the role
         ]); // Create the user with validated data
+        return redirect()->route('users.index')->with('success', 'User created successfully.'); // Redirect with success message
     }
 
     /**
