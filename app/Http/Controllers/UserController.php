@@ -34,7 +34,7 @@ class UserController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
-            'role' => 'required|string|in:admin,user', // Validate role
+            'role' => 'required|string|in:admin,staff', // Validate role
         ]);
 
         User::create([
@@ -56,18 +56,27 @@ class UserController extends Controller
 
     /**
      * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+     */     
+    public function edit(User $user)
     {
-        //
-    }
+        return view('users.edit', compact('user')); // Return the view for editing a user
+    }                    
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, User $user)
     {
-        //
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email,' . $user->id, // Unique email except for the current user
+            'role' => 'required|in:admin,staff' // Validate role
+        ]);
+        if ($request->filled('password')) {
+            $validated['password'] = Hash::make($request->input('password'));
+        }
+        $user->update($validated); // Update the user with validated data
+        return redirect()->route('users.index')->with('success', 'User updated successfully.');
     }
 
     /**
