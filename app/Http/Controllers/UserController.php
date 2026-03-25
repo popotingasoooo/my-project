@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Hash; 
+use Illuminate\Database\Eloquent\SoftDeletes; // Import SoftDeletes trait
 
 class UserController extends Controller
 {
@@ -82,8 +83,20 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(User $user)
     {
-        //
+        $user->delete(); // Delete the user
+        return redirect()->route('users.index')
+             ->with('success', 'User deleted (can be restored) successfully.'); // Redirect with success message
+    }
+
+    /**
+     * Restore the specified resource from storage.
+     */
+    public function restore($id) {
+        $user = User::withTrashed()->findOrFail($id); // Find the user including soft-deleted ones
+        $user->restore(); // Restore the user
+        return redirect()->route('users.index')
+                ->with('success', 'User restored successfully.'); // Redirect with success message
     }
 }
