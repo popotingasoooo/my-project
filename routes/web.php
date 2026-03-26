@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ActivityLogController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
@@ -29,6 +30,8 @@ Route::middleware('auth')->group(function () {
     Route::post('roles', [RoleController::class,'store'])->name('roles.store');
     Route::get('roles/assign',[RoleController::class,'assignForm'])->name('roles.assign');
     Route::post('roles/assign',[RoleController::class,'assign'])->name('roles.assign.post');
+    Route::get('activity-logs', [ActivityLogController::class, 'index'])->name('activity.index');
 });
+
 
 require __DIR__.'/auth.php';
