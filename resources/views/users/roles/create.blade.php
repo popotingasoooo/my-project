@@ -20,7 +20,7 @@
                     @endforeach
                 </div>
                 <button type="submit"
-                        class="bg-blue-600 text-white px-6 py-2 rounded">Create Role</button>
+                        class="ml-3 bg-gray-200 px-6 py-1.5 rounded">Create Role</button>
                 <a href="{{ route('roles.index') }}"
                     class="ml-3 bg-gray-200 px-6 py-2 rounded">Cancel</a>
             </form>

@@ -22,7 +22,7 @@
                     </select>
                 </div>  
                 <button type="submit"
-                    class="bg-purple-600 text-white px-6 py-2 rounded">Assign Role</button>
+                    class="bg-gray-200 px-6 py-2 rounded">Assign Role</button>
             </form>
         </div>
     </div>

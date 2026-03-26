@@ -3,16 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Spatie\Activitylog\Models\Activity; // Import the Activity model
 
 class ActivityLogController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('can:view-logs'); // Ensure only users with 'view-logs' permission can access this controller
-            
-    }
-
+    
     public function index() {
         $logs = Activity::with('causer','subject')
             ->latest()

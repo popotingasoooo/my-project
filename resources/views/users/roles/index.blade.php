@@ -5,9 +5,9 @@
         @can('manage-roles')
         <div class="flex gap-3 mb-4">
             <a href="{{ route('roles.create') }}"
-                class="bg-green-600 text-white px-4 py-2 rounded">+ New Role</a>
+                class="bg-gray-200 text-black px-4 py-2 rounded">+ New Role</a>
             <a href="{{ route('roles.assign') }}"
-                class="bg-blue-600 text-white px-4 py-2 rounded">Assign Roles</a>
+                class="bg-gray-200 text-black px-4 py-2 rounded">Assign Roles</a>
         </div>
         @endcan
         <div class="bg-white shadow rounded p-6">

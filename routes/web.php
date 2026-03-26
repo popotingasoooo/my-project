@@ -33,5 +33,9 @@ Route::middleware('auth')->group(function () {
     Route::get('activity-logs', [ActivityLogController::class, 'index'])->name('activity.index');
 });
 
+Route::get('activity-logs', [ActivityLogController::class, 'index'])
+    ->middleware('can:view-logs') // Ensure only users with 'view-logs' permission can access this route
+    ->name('activity.index');
+
 
 require __DIR__.'/auth.php';
