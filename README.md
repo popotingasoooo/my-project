@@ -51,7 +51,7 @@ A comprehensive Laravel application for managing users, roles, permissions, and 
 
 ## 🛠️ Tech Stack
 
-- **Framework:** Laravel 11
+- **Framework:** Laravel 12
 - **Frontend:** Blade Templates with Tailwind CSS
 - **Database:** MySQL
 - **Packages:**
