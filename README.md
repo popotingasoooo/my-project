@@ -46,7 +46,6 @@ A comprehensive Laravel application for managing users, roles, permissions, and 
 
 ### Authentication & Authorization
 - Laravel's built-in authentication system
-- Email verification
 - Password reset functionality
 - Role-based access control (RBAC)
 
@@ -55,7 +54,6 @@ A comprehensive Laravel application for managing users, roles, permissions, and 
 - **Framework:** Laravel 11
 - **Frontend:** Blade Templates with Tailwind CSS
 - **Database:** MySQL
-- **Build Tool:** Vite
 - **Packages:**
   - `spatie/laravel-permission` — Role/Permission management
   - `spatie/laravel-activitylog` — Activity logging
@@ -123,22 +121,12 @@ my-project/
    composer install
    ```
 
-3. **Install Node dependencies**
-   ```bash
-   npm install
-   ```
-
-4. **Copy environment file**
+3. **Copy environment file**
    ```bash
    cp .env.example .env
    ```
 
-5. **Generate application key**
-   ```bash
-   php artisan key:generate
-   ```
-
-6. **Configure database** in `.env`
+4. **Configure database** in `.env`
    ```
    DB_CONNECTION=mysql
    DB_HOST=127.0.0.1
@@ -148,12 +136,12 @@ my-project/
    DB_PASSWORD=
    ```
 
-7. **Run migrations**
+5. **Run migrations**
    ```bash
    php artisan migrate
    ```
 
-8. **Seed default data**
+6. **Seed default data**
    ```bash
    php artisan db:seed
    ```
@@ -164,7 +152,7 @@ my-project/
    - Default staff user (email: Staff@test, password: password)
 
 
-9. **Start development server**
+7. **Start development server**
     ```bash
     php artisan serve
     ```
@@ -380,13 +368,10 @@ MAIL_MAILER=log
 3. Test thoroughly
 4. Submit a pull request
 
-## 📄 License
-
-This project is licensed under the MIT License.
 
 ## ✉️ Support
 
-For issues or questions, contact the development team.
+For issues or questions, contact me from my place near the pantry.
 
 ---
 
