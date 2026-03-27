@@ -15,7 +15,6 @@ class LogSuccessfulLogin{
         activity()
             ->causedBy($event->user) // Log the user who logged in
             ->performedOn($event->user) // Log the user model as the subject of the activity
-            ->useLogName('user')
             ->log('User ' . $event->user->name . ' logged in'); // Log descriptive message with user name
     }
 

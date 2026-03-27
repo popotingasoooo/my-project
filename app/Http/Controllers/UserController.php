@@ -14,7 +14,21 @@ class UserController extends Controller
      */
     public function index(Request $request) 
     {
-        $users = User::paginate(10); // Paginate users, 10 per page
+        $query = User::query();
+
+            if ($request->filled('search')) {
+                $query->where(function ($q) use ($request) {
+                    $q->where('name', 'like', '%' . $request->search . '%')
+                      ->orWhere('email', 'like', '%' . $request->search . '%');
+                });
+            }
+
+            if ($request->filled('role')) {
+                $query->where('role', $request->role);
+            }
+
+
+        $users = $query->paginate(10)->withQueryString(); // Paginate the results, 10 per page, and keep query parameters in pagination links
         $trashed = User::onlyTrashed()->get(); // Get soft deleted users for restore table
 
         return view('users.index', compact('users', 'trashed')); // Return the view with users and trashed users

@@ -21,7 +21,6 @@ class User extends Authenticatable
             ->logOnly(['name', 'email', 'role']) // Log only specific attributes
             ->logOnlyDirty() // Log only changed attributes
             ->dontSubmitEmptyLogs()
-            ->useLogName('user')
             ->setDescriptionForEvent(fn(string $eventName) => ucfirst($eventName) . ' user: ' . ($this->name ?? 'N/A')); // Custom description
     }
 

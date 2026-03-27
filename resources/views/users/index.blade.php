@@ -13,6 +13,21 @@
                 <h3 class="text-lg font-semibold">All Users</h3>
                 <a href="{{ route('users.create') }}" class="bg-gray-200 text-black px-4 py-2 rounded">+ Create User</a> 
             </div>
+            <form method="GET" action="{{ route('users.index') }}"
+                    class="flex gap-3 mb-4">
+                <input type="text" name="search" placeholder="Search by name or email..."
+                    value="{{ request('search') }}"
+                    class="border rounded px-3 py-2 flex-1 text-sm">
+                <select name="role" class="border rounded px-3 py-2 text-sm">
+                    <option value="">All Roles</option>
+                    <option value="admin" {{ request('role') == 'admin' ? 'selected' : '' }}>Admin</option>
+                    <option value="staff" {{ request('role') == 'staff' ? 'selected' : '' }}>Staff</option>
+                </select>
+                <button type="submit"
+                    class="bg-gray-200 text-black px-3 py-1 rounded text-sx">Filter</button>
+                <a href="{{ route('users.index') }}"
+                    class="bg-gray-200 text-black px-3 py-1 rounded text-sx">Clear</a>
+            </form>
             <table class="w-full text-sm">
                 <thead class="bg-gray-100">
                     <tr>
