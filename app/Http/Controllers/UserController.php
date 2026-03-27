@@ -4,18 +4,20 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash; 
-use Illuminate\Database\Eloquent\SoftDeletes; // Import SoftDeletes trait
+use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request) 
     {
         $users = User::paginate(10); // Paginate users, 10 per page
-        return view('users.index', compact('users')); // Return the view with users
+        $trashed = User::onlyTrashed()->get(); // Get soft deleted users for restore table
+
+        return view('users.index', compact('users', 'trashed')); // Return the view with users and trashed users
     }
 
     /**
@@ -23,7 +25,8 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('users.create'); // Return the view for creating a user
+        $roles = Role::all(); // Get all available roles
+        return view('users.create', compact('roles')); // Return the view for creating a user with roles
     }
 
     /**
@@ -31,11 +34,12 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
+        $roleNames = Role::pluck('name')->toArray(); // Get all role names from database
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
-            'role' => 'required|string|in:admin,staff', // Validate role
+            'role' => 'required|string|in:' . implode(',', $roleNames), // Validate role from database
         ]);
 
         User::create([
@@ -60,7 +64,8 @@ class UserController extends Controller
      */     
     public function edit(User $user)
     {
-        return view('users.edit', compact('user')); // Return the view for editing a user
+        $roles = Role::all(); // Get all available roles
+        return view('users.edit', compact('user', 'roles')); // Return the view for editing a user with roles
     }                    
 
     /**
@@ -68,10 +73,11 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
+        $roleNames = Role::pluck('name')->toArray(); // Get all role names from database
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email,' . $user->id, // Unique email except for the current user
-            'role' => 'required|in:admin,staff' // Validate role
+            'email' => 'required|email|unique:users,email,' . $user->id,
+            'role' => 'required|string|in:' . implode(',', $roleNames), // Validate role from database
         ]);
         if ($request->filled('password')) {
             $validated['password'] = Hash::make($request->input('password'));
@@ -87,7 +93,7 @@ class UserController extends Controller
     {
         $user->delete(); // Delete the user
         return redirect()->route('users.index')
-             ->with('success', 'User deleted (can be restored) successfully.'); // Redirect with success message
+             ->with('success', 'User deleted successfully (can be restored)'); // Redirect with success message
     }
 
     /**

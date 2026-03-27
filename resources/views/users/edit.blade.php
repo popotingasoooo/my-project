@@ -9,14 +9,14 @@
                     <input type="text" name="name"
                         value="{{ old('name', $user->name) }}"
                         class="w-full border rounded px-3 py-2">
-                    @error('name')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
+                    @error('name')<p class="text-black  text-xs mt-1">{{ $message }}</p>@enderror
                 </div>
                 <div class="mb-4">
                     <label class="block text-sm font-medium mb-1">Email</label>
                     <input type="email" name="email"
                         value="{{ old('email', $user->email) }}"
                         class="w-full border rounded px-3 py-2">
-                    @error('email')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
+                    @error('email')<p class="text-black text-xs mt-1">{{ $message }}</p>@enderror
                 </div>
                 <div class="mb-4">
                     <label class="block text-sm font-medium mb-1">
@@ -33,15 +33,20 @@
                 <div class="mb-6">
                 <label class="block text-sm font-medium mb-1">Role</label>
                 <select name="role" class="w-full border rounded px-3 py-2">
-                    <option value="staff" {{$user->role == 'staff' ? 'selected' : '' }}>Staff</option>
-                    <option value="admin" {{$user->role == 'admin' ? 'selected' : '' }}>Admin</option>
+                    @forelse($roles as $role)
+                        <option value="{{ $role->name }}" {{ $user->role == $role->name ? 'selected' : '' }}>
+                            {{ ucfirst($role->name) }}
+                        </option>
+                    @empty
+                        <option disabled>No roles available</option>
+                    @endforelse
                 </select>
                 </div>
                 <div class="flex gap-3">
                     <button type="submit"
-                        class="bg-blue-600 text-white px-6 py-2 rounded">Update</button>
+                        class="bg-gray-200 text-black px-6 py-2 rounded">Update</button>
                     <a href="{{ route('users.index') }}"
-                        class="bg-gray-200 px-6 py-2 rounded">Cancel</a>
+                        class="bg-gray-200 text-black px-6 py-2 rounded">Cancel</a>
                 </div>
             </form>
         </div>
