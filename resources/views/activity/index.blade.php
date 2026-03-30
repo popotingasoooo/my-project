@@ -17,7 +17,7 @@
             @foreach($logs as $log)
             <tr class="border-t hover:bg-gray-50">
               <td class="p-3 text-gray-500 whitespace-nowrap">
-                {{ $log->created_at->format('M d, Y H:i') }}
+                {{ $log->created_at->format('M d, Y h:i A') }}
               </td>
               <td class="p-3">
                 {{ $log->causer ? $log->causer->name : 'System' }}
