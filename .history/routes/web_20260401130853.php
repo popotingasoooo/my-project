@@ -46,8 +46,8 @@ Route::middleware('auth')->group(function () {
     Route::put('roles/{role}', [RoleController::class, 'update'])
         ->name('roles.update');
    //Anyone with view-tasks can see the board and show a task
-    Route::get('tasks/history', [TaskHistoryController::class, 'index'])
-        ->name('tasks.history')
+    Route::get('tasks/history', function () {
+        return redirect()->route('tasks.index', ['view' => 'history']);
         ->middleware('can:view-tasks');
     Route::get('tasks',[TaskController::class, 'index'])
         ->name('tasks.index')

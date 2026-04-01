@@ -3,11 +3,7 @@
         <div class="flex h-16 items-center justify-between gap-4">
             <div class="flex items-center gap-6">
                 <a href="{{ route('dashboard') }}" class="flex items-center gap-3">
-                    <div class="flex h-10 w-10 items-center justify-center rounded-2xl bg-gradient-to-br from-slate-900 to-sky-800 text-sm font-black text-white shadow-sm">
-                        <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
-                        </svg>
-                    </div>
+                    <span class="flex h-10 w-10 items-center justify-center rounded-2xl bg-slate-900 text-sm font-black text-white shadow-sm">TD</span>
                     <div>
                         <p class="text-sm font-semibold text-slate-900">TaskFlow</p>
                         <p class="text-xs text-slate-500">Organize your day</p>
@@ -16,54 +12,43 @@
 
                 <div class="hidden items-center gap-2 sm:flex">
                     <a href="{{ route('dashboard') }}"
-                       class="{{ request()->routeIs('dashboard') ? 'inline-flex items-center gap-2 rounded-full bg-slate-900 px-3 py-2 text-sm font-semibold text-white shadow-sm' : 'inline-flex items-center gap-2 rounded-full px-3 py-2 text-sm font-medium text-slate-600 transition hover:bg-slate-100 hover:text-slate-900' }}">
-                        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2z"></path>
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5a2 2 0 012-2h4a2 2 0 012 2v2H8V5z"></path>
-                        </svg>
+                       class="{{ request()->routeIs('dashboard') ? 'inline-flex items-center rounded-full bg-slate-900 px-3 py-2 text-sm font-semibold text-white shadow-sm' : 'inline-flex items-center rounded-full px-3 py-2 text-sm font-medium text-slate-600 transition hover:bg-slate-100 hover:text-slate-900' }}">
                         Dashboard
                     </a>
 
                     @can('view-tasks')
                     <a href="{{ route('tasks.index') }}"
-                       class="{{ request()->routeIs('tasks.*') ? 'inline-flex items-center gap-2 rounded-full bg-sky-100 px-3 py-2 text-sm font-semibold text-sky-700' : 'inline-flex items-center gap-2 rounded-full px-3 py-2 text-sm font-medium text-slate-600 transition hover:bg-slate-100 hover:text-slate-900' }}">
-                        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
-                        </svg>
+                       class="{{ request()->routeIs('tasks.*') ? 'inline-flex items-center rounded-full bg-sky-100 px-3 py-2 text-sm font-semibold text-sky-700' : 'inline-flex items-center rounded-full px-3 py-2 text-sm font-medium text-slate-600 transition hover:bg-slate-100 hover:text-slate-900' }}">
                         Tasks
                     </a>
                     @endcan
 
                     @can('view-users')
                     <a href="{{ route('users.index') }}"
-                       class="{{ request()->routeIs('users.*') ? 'inline-flex items-center gap-2 rounded-full bg-slate-900 px-3 py-2 text-sm font-semibold text-white shadow-sm' : 'inline-flex items-center gap-2 rounded-full px-3 py-2 text-sm font-medium text-slate-600 transition hover:bg-slate-100 hover:text-slate-900' }}">
-                        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"></path>
-                        </svg>
+                       class="{{ request()->routeIs('users.*') ? 'inline-flex items-center rounded-full bg-slate-900 px-3 py-2 text-sm font-semibold text-white shadow-sm' : 'inline-flex items-center rounded-full px-3 py-2 text-sm font-medium text-slate-600 transition hover:bg-slate-100 hover:text-slate-900' }}">
                         Users
                     </a>
                     @endcan
 
                     @can('view-roles')
                     <a href="{{ route('roles.index') }}"
-                       class="{{ request()->routeIs('roles.*') ? 'inline-flex items-center gap-2 rounded-full bg-slate-900 px-3 py-2 text-sm font-semibold text-white shadow-sm' : 'inline-flex items-center gap-2 rounded-full px-3 py-2 text-sm font-medium text-slate-600 transition hover:bg-slate-100 hover:text-slate-900' }}">
-                        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
-                        </svg>
+                       class="{{ request()->routeIs('roles.*') ? 'inline-flex items-center rounded-full bg-slate-900 px-3 py-2 text-sm font-semibold text-white shadow-sm' : 'inline-flex items-center rounded-full px-3 py-2 text-sm font-medium text-slate-600 transition hover:bg-slate-100 hover:text-slate-900' }}">
                         Roles
                     </a>
                     @endcan
 
                     @can('view-logs')
                     <a href="{{ route('activity.index') }}"
-                       class="{{ request()->routeIs('activity.*') ? 'inline-flex items-center gap-2 rounded-full bg-slate-900 px-3 py-2 text-sm font-semibold text-white shadow-sm' : 'inline-flex items-center gap-2 rounded-full px-3 py-2 text-sm font-medium text-slate-600 transition hover:bg-slate-100 hover:text-slate-900' }}">
-                        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
-                        </svg>
+                       class="{{ request()->routeIs('activity.*') ? 'inline-flex items-center rounded-full bg-slate-900 px-3 py-2 text-sm font-semibold text-white shadow-sm' : 'inline-flex items-center rounded-full px-3 py-2 text-sm font-medium text-slate-600 transition hover:bg-slate-100 hover:text-slate-900' }}">
                         Activity Logs
                     </a>
                     @endcan
-               
+                    @can('view-tasks')
+                    <a href="{{ route('tasks.history') }}"
+                       class="{{ request()->routeIs('tasks.history') ? 'inline-flex items-center rounded-full bg-slate-900 px-3 py-2 text-sm font-semibold text-white shadow-sm' : 'inline-flex items-center rounded-full px-3 py-2 text-sm font-medium text-slate-600 transition hover:bg-slate-100 hover:text-slate-900' }}">
+                        Task History
+                    </a>
+                    @endcan
                 </div>
             </div>
 

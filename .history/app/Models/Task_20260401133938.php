@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Activitylog\LogOptions;
-use Spatie\Activitylog\Models\Activity;
+use Spatie\Activitylog\Models\Activity as SpatieActivity;
 
 class Task extends Model
 {
@@ -53,12 +53,14 @@ class Task extends Model
     // Find when and who marked this task as done
     public function completionLog()
     {
-        return Activity::where('subject_type', self::class)
-        ->where('subject_id', $this->id)
-        ->where('properties', 'LIKE', '%"status":"done"%')
-        ->with('causer')
-        ->latest()
-        ->first();
+        return Spatie\Activity\LogModelsActivity::where('subject_type', self::class)
+            ->where('subject_id', $this->id)
+            ->where(function($q){
+                $q-whereJsonContains('properties->attributes->status', 'done'); // Check if the status was changed to 'done' in the activity log
+            })
+            ->with('causer')// Eager load the user who made the change
+            ->latest()// Order by latest change
+            ->first(); // Get the most recent log entry for when the task was marked as done
     }
     // Calculate time taken to complete the task
     public function timeToComplete(): ?string

@@ -6,9 +6,7 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\TaskCommentController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\TaskHistoryController;
 use Illuminate\Support\Facades\Route;
-
 
 Route::get('/', function () {
     return view('auth.login');
@@ -46,9 +44,6 @@ Route::middleware('auth')->group(function () {
     Route::put('roles/{role}', [RoleController::class, 'update'])
         ->name('roles.update');
    //Anyone with view-tasks can see the board and show a task
-    Route::get('tasks/history', [TaskHistoryController::class, 'index'])
-        ->name('tasks.history')
-        ->middleware('can:view-tasks');
     Route::get('tasks',[TaskController::class, 'index'])
         ->name('tasks.index')
         ->middleware('can:view-tasks');
@@ -79,6 +74,9 @@ Route::middleware('auth')->group(function () {
         ->middleware('can:view-tasks');
     Route::delete('tasks/{task}/comments/{comment}', [TaskCommentController::class, 'destroy'])
         ->name('tasks.comments.destroy')
+        ->middleware('can:view-tasks');
+    Route::get('tasks/history', [TaskHistoryController::class, 'index'])
+        ->name('tasks.history')
         ->middleware('can:view-tasks');
 });
 

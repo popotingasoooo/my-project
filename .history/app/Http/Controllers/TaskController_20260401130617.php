@@ -12,57 +12,60 @@ class TaskController extends Controller
      * Display a listing of the resource.
      */
     public function index(Request $request)
-{
-    $view = $request->get('view', 'board');
+    {
+        $view = $request->get('view', 'board'); // Default to board view
 
-    if ($view === 'history') {
-        $query = Task::with(['assignee', 'creator', 'comments.user'])
-                     ->where('status', 'done');
+        if ($view === 'history') {
+            // History view logic
+            $query = Task::with(['assignee', 'creator', 'comments.user'])
+                          ->where('status','done');
 
-        if (!auth()->user()->can('manage-tasks')) {
-            $query->where('assigned_to', auth()->id());
+            // If the user is staff, only show tasks they are assigned to
+            if (!auth()->user()->can('manage-tasks')) {
+                $query->where('assigned_to', auth()->id());
+            }
+
+            //Optional filters
+            if ($request->filled('assignee') && auth()->user()->can('manage-tasks')) {
+                $query->where('assigned_to', $request->assignee);
+            }
+
+            if ($request->filled('priority')) {
+                $query->where('priority', $request->priority);
+            }
+
+            if ($request->filled('search')){
+                $query->where('title', 'like', '%' . $request->search . '%');
+            }
+
+            $tasks = $query->latest('updated_at')->paginate(15)->withQueryString();
+
+            //For the assignee filter dropdown(admin only)
+            $users = auth()->user()->can('manage-tasks')
+                ? User::all()
+                : collect(); // Get all users for admin, empty collection for staff
+
+            return view('tasks.index', compact('tasks', 'users', 'view'));
+        } else {
+            // Kanban board view with tasks grouped by status
+            $tasks = Task::with('assignee')
+                ->where(function($q) {
+                    if (!auth()->user()->can('manage-tasks')){
+                        //staff only see their own tasks
+                        $q->where('assigned_to', auth()->id());
+                    }
+                })
+                ->get()
+                ->groupBy('status'); // Group tasks by status for Kanban columns
+
+            $todo = $tasks->get('todo', collect()); // Get tasks with 'todo' status or empty collection
+            $inProgress = $tasks->get('in_progress', collect()); // Get tasks with 'in_progress' status or empty collection 
+            $done = $tasks->get('done', collect()); // Get tasks with 'done' status or empty collection
+
+            return view('tasks.index', compact('todo','inProgress','done', 'view')); // Return the view with grouped tasks
         }
-        if ($request->filled('assignee') && auth()->user()->can('manage-tasks')) {
-            $query->where('assigned_to', $request->assignee);
-        }
-        if ($request->filled('priority')) {
-            $query->where('priority', $request->priority);
-        }
-        if ($request->filled('search')) {
-            $query->where('title', 'like', '%' . $request->search . '%');
-        }
-
-        $tasks = $query->latest('updated_at')->paginate(15)->withQueryString();
-        $users = auth()->user()->can('manage-tasks') ? User::all() : collect();
-
-        // Pass empty collections for board variables so Blade doesn't error
-        $todo = collect();
-        $inProgress = collect();
-        $done = collect();
-
-        return view('tasks.index', compact('view', 'tasks', 'users', 'todo', 'inProgress', 'done'));
     }
 
-    // Board view
-    $tasks = Task::with('assignee')
-                 ->where(function($q) {
-                     if (!auth()->user()->can('manage-tasks')) {
-                         $q->where('assigned_to', auth()->id());
-                     }
-                 })
-                 ->get()
-                 ->groupBy('status');
-
-    $todo       = $tasks->get('todo', collect());
-    $inProgress = $tasks->get('in_progress', collect());
-    $done       = $tasks->get('done', collect());
-
-    // Pass empty paginator for history variables so Blade doesn't error
-    $tasks = collect();
-    $users = collect();
-
-    return view('tasks.index', compact('view', 'todo', 'inProgress', 'done', 'tasks', 'users'));
-}
     /**
      * Show the form for creating a new resource.
      */

@@ -63,7 +63,15 @@
                         Activity Logs
                     </a>
                     @endcan
-               
+                    @can('view-tasks')
+                    <a href="{{ route('tasks.history') }}"
+                       class="{{ request()->routeIs('tasks.history') ? 'inline-flex items-center gap-2 rounded-full bg-slate-900 px-3 py-2 text-sm font-semibold text-white shadow-sm' : 'inline-flex items-center gap-2 rounded-full px-3 py-2 text-sm font-medium text-slate-600 transition hover:bg-slate-100 hover:text-slate-900' }}">
+                        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        Task History
+                    </a>
+                    @endcan
                 </div>
             </div>
 
