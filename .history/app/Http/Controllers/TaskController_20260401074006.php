@@ -118,7 +118,7 @@ class TaskController extends Controller
 
         $task->update(['status' => $request->status]); // Update only the status of the task
 
-        return redirect()->route('tasks.index')
+        return redirect()->route('tasks.index') // Return JSON response for AJAX calls
             ->with('success', 'Task status updated successfully.');
     }
 
